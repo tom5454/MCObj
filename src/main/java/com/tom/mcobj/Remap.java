@@ -6,7 +6,6 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -40,7 +39,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IEnviromentBlockReader;
 
-import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.client.model.ModelLoaderRegistry;
 import net.minecraftforge.client.model.data.IModelData;
@@ -139,16 +137,13 @@ public class Remap {
 			throw new RuntimeException(e);
 		}
 	}
-	public static void addTextures(TextureStitchEvent.Pre event){
-		//missingTexs.forEach(event::addSprite);
-	}
 	@SuppressWarnings("unchecked")
 	public static IUnbakedModel getUnbakedModel(ResourceLocation modelLocation, ModelLoader s) {
 		try {
 			//System.out.println("Remap.getUnbakedModel()");
 			IUnbakedModel missing = ((Map<ResourceLocation, IUnbakedModel>)field_217849_F.get(s)).get(ModelLoader.MODEL_MISSING);
-			IUnbakedModel model = Access.SUPERgetUnbakedModel(s, modelLocation);
-			if(model == missing && modelLocation.getPath().endsWith(".obj")){
+			IUnbakedModel model = missing;
+			if(modelLocation.getPath().endsWith(".obj")){
 				try {
 					if(manager.get(OBJLoader.INSTANCE) == null){
 						OBJLoader.INSTANCE.onResourceManagerReload((IResourceManager) resourceManager.get(s));
@@ -160,6 +155,8 @@ public class Remap {
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
+			}else{
+				model = Access.SUPERgetUnbakedModel(s, modelLocation);
 			}
 			return model;
 		} catch(Exception e){
