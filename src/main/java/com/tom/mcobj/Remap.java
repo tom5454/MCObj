@@ -196,8 +196,7 @@ public class Remap {
 			Object access = ((TransformingClassLoader)BlockModel.class.getClassLoader()).getClass(name, cw.toByteArray()).newInstance();
 			//log.info(access);
 			Optional<BiFunction<Domain, String, String>> srgNameMapper = Launcher.INSTANCE.environment().findNameMapping("srg");
-			try (BufferedReader r = new BufferedReader(new InputStreamReader(Remap.class.getResourceAsStream("/com/tom/mcobj/modelnames.txt")));
-					PrintWriter w = new PrintWriter("modelexport.txt")){
+			try (BufferedReader r = new BufferedReader(new InputStreamReader(Remap.class.getResourceAsStream("/com/tom/mcobj/modelnames.txt")))){
 				String ln;
 				while((ln = r.readLine()) != null){
 					String pln = ln;
