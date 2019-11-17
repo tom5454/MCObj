@@ -19,12 +19,33 @@ Most blocks use tint index 0. (`grass#tint0`)
 ### Texturing
 You have to edit your `.mtl` file with your favourite text editor.  
 `newmtl` defines a new material.
-`map_Kd` defines the texture for the material above.
-change it to `map_Kd #<id>` and then in your JSON
-add  
+`map_Kd` or `map_Ka` or `map_Ks` defines the texture for the material above.
+change it to `map_Kd #<id>`.  
+```
+newmtl <element>
+map_Kd #<id>
+```
+example from the [Spheres Resource Pack](https://github.com/tom5454/MCObj/raw/master/spheres.zip):  
+```
+newmtl None
+Ns 0
+Ka 0.000000 0.000000 0.000000
+Kd 0.8 0.8 0.8
+Ks 0.8 0.8 0.8
+d 1
+illum 2
+map_Kd #north
+```
+Then in your JSON add  
 ```json  
 "textures": {  
 	"id": "<your texture>"  
+}  
+```  
+example:
+```json  
+"textures": {  
+	"north": "block/stone"  
 }  
 ```  
 
