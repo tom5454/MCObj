@@ -1,0 +1,2 @@
+FMLCorePlugin: com.tom.mcobjcore.MCObjLoadingPlugin
+FMLCorePluginContainsFMLMod: true

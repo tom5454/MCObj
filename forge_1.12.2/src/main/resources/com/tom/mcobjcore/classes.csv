@@ -1,0 +1,9 @@
+srg,name
+cfy,net/minecraft/client/renderer/block/model/IBakedModel
+cea,net/minecraft/client/renderer/vertex/VertexFormat
+bvu,net/minecraft/client/renderer/block/model/ModelBlock
+nf,net/minecraft/util/ResourceLocation
+brs,net/minecraft/client/model/ModelRenderer
+bqf,net/minecraft/client/model/ModelBase
+brq,net/minecraft/client/model/ModelBox
+cdr,net/minecraft/client/renderer/texture/TextureManager
