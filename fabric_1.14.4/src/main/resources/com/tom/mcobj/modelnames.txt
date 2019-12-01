@@ -1,0 +1,198 @@
+field_3315;standLeftSide //armorstandmodel net/minecraft/client/render/entity/model/armorstandentitymodel
+field_3314;standRightSide //armorstandmodel net/minecraft/client/render/entity/model/armorstandentitymodel
+field_3309;bannerSlate //bannermodel net/minecraft/client/render/entity/model/bannerblockentitymodel
+field_3311;bannerStand //bannermodel net/minecraft/client/render/entity/model/bannerblockentitymodel
+field_3310;bannerTop //bannermodel net/minecraft/client/render/entity/model/bannerblockentitymodel
+field_3321/1;batHead/1 //batmodel net/minecraft/client/render/entity/model/batentitymodel
+field_3321/0;batHead/0 //batmodel net/minecraft/client/render/entity/model/batentitymodel
+field_3323;batBody //batmodel net/minecraft/client/render/entity/model/batentitymodel
+field_3321;batHead //batmodel net/minecraft/client/render/entity/model/batentitymodel
+field_3322;batOuterLeftWing //batmodel net/minecraft/client/render/entity/model/batentitymodel
+field_3316;headPiece //bedmodel net/minecraft/client/render/entity/model/bedentitymodel
+field_3318;footPiece //bedmodel net/minecraft/client/render/entity/model/bedentitymodel
+field_3317[0];leg0 //bedmodel legs[0] net/minecraft/client/render/entity/model/bedentitymodel
+field_3317[3];leg3 //bedmodel legs[3] net/minecraft/client/render/entity/model/bedentitymodel
+field_3317[1];leg1 //bedmodel legs[1] net/minecraft/client/render/entity/model/bedentitymodel
+field_3317[2];leg2 //bedmodel legs[2] net/minecraft/client/render/entity/model/bedentitymodel
+field_17130;bellBottom //bellmodel net/minecraft/client/render/block/entity/bellmodel
+field_17129;bellTop //bellmodel net/minecraft/client/render/block/entity/bellmodel
+field_3401;bipedLeftArm //bipedmodel net/minecraft/client/render/entity/model/bipedentitymodel
+field_3398;bipedHeadwear //bipedmodel net/minecraft/client/render/entity/model/bipedentitymodel
+field_3392;bipedLeftLeg //bipedmodel net/minecraft/client/render/entity/model/bipedentitymodel
+field_3390;bipedRightLeg //bipedmodel net/minecraft/client/render/entity/model/bipedentitymodel
+field_3391;bipedRightArm //bipedmodel net/minecraft/client/render/entity/model/bipedentitymodel
+field_3328[7];blazeSticks[7] //blazemodel net/minecraft/client/render/entity/model/blazeentitymodel
+field_3328[6];blazeSticks[6] //blazemodel net/minecraft/client/render/entity/model/blazeentitymodel
+field_3328[9];blazeSticks[9] //blazemodel net/minecraft/client/render/entity/model/blazeentitymodel
+field_3328[8];blazeSticks[8] //blazemodel net/minecraft/client/render/entity/model/blazeentitymodel
+field_3328[3];blazeSticks[3] //blazemodel net/minecraft/client/render/entity/model/blazeentitymodel
+field_3328[10];blazeSticks[10] //blazemodel net/minecraft/client/render/entity/model/blazeentitymodel
+field_3328[2];blazeSticks[2] //blazemodel net/minecraft/client/render/entity/model/blazeentitymodel
+field_3328[11];blazeSticks[11] //blazemodel net/minecraft/client/render/entity/model/blazeentitymodel
+field_3328[5];blazeSticks[5] //blazemodel net/minecraft/client/render/entity/model/blazeentitymodel
+field_3328[4];blazeSticks[4] //blazemodel net/minecraft/client/render/entity/model/blazeentitymodel
+field_3328[1];blazeSticks[1] //blazemodel net/minecraft/client/render/entity/model/blazeentitymodel
+field_3329;blazeHead //blazemodel net/minecraft/client/render/entity/model/blazeentitymodel
+field_3328[0];blazeSticks[0] //blazemodel net/minecraft/client/render/entity/model/blazeentitymodel
+field_3327[1];boatSide1 //boatmodel net/minecraft/client/render/entity/model/boatentitymodel
+field_3327[0];boatSides0 //boatmodel net/minecraft/client/render/entity/model/boatentitymodel
+field_3327[3];boatSides3 //boatmodel net/minecraft/client/render/entity/model/boatentitymodel
+field_3327[2];boatSides2 //boatmodel net/minecraft/client/render/entity/model/boatentitymodel
+field_3327[4];boatSides4 //boatmodel net/minecraft/client/render/entity/model/boatentitymodel
+field_3325[1];paddle0 //boatmodel paddles[1] net/minecraft/client/render/entity/model/boatentitymodel
+field_3325[0];paddle1 //boatmodel paddles[0] net/minecraft/client/render/entity/model/boatentitymodel
+field_3339;flippingPageLeft //bookmodel net/minecraft/client/render/entity/model/bookmodel
+field_3334;flippingPageRight //bookmodel net/minecraft/client/render/entity/model/bookmodel
+field_3335;pagesLeft //bookmodel net/minecraft/client/render/entity/model/bookmodel
+field_3333;bookSpine //bookmodel net/minecraft/client/render/entity/model/bookmodel
+field_3336;coverRight //bookmodel net/minecraft/client/render/entity/model/bookmodel
+field_3337;pagesRight //bookmodel net/minecraft/client/render/entity/model/bookmodel
+field_3338;coverLeft //bookmodel net/minecraft/client/render/entity/model/bookmodel
+field_3341;field_78143_h //chickenmodel net/minecraft/client/render/entity/model/chickenentitymodel
+field_3346;bill //chickenmodel net/minecraft/client/render/entity/model/chickenentitymodel
+field_3343;field_78137_g //chickenmodel net/minecraft/client/render/entity/model/chickenentitymodel
+field_3359;leg4 //creepermodel net/minecraft/client/render/entity/model/creeperentitymodel
+field_3361;leg3 //creepermodel net/minecraft/client/render/entity/model/creeperentitymodel
+field_3360;head //creepermodel net/minecraft/client/render/entity/model/creeperentitymodel
+field_3362;creeperArmor //creepermodel net/minecraft/client/render/entity/model/creeperentitymodel
+field_4656/0;head/0 //dolphinmodel net/minecraft/client/render/entity/model/dolphinentitymodel
+field_4658/0;body/0 //dolphinmodel net/minecraft/client/render/entity/model/dolphinentitymodel
+field_4658;body //dolphinmodel net/minecraft/client/render/entity/model/dolphinentitymodel
+field_4658/2;body/2 //dolphinmodel net/minecraft/client/render/entity/model/dolphinentitymodel
+field_4658/1;body/1 //dolphinmodel net/minecraft/client/render/entity/model/dolphinentitymodel
+field_4656;head //dolphinmodel net/minecraft/client/render/entity/model/dolphinentitymodel
+field_3638;jaw //dragonheadmodel net/minecraft/client/render/entity/model/dragonheadentitymodel
+field_3364;rightWing //elytramodel net/minecraft/client/render/entity/model/elytraentitymodel
+field_3365;leftWing //elytramodel net/minecraft/client/render/entity/model/elytraentitymodel
+field_3376;upperJaw //evokerfangsmodel net/minecraft/client/render/entity/model/evokerfangsentitymodel
+field_18016;earLeft //foxmodel net/minecraft/client/render/entity/model/foxentitymodel
+field_18015;head //foxmodel net/minecraft/client/render/entity/model/foxentitymodel
+field_18020;rightLeg //foxmodel net/minecraft/client/render/entity/model/foxentitymodel
+field_18021;leftLeg //foxmodel net/minecraft/client/render/entity/model/foxentitymodel
+field_18019;body //foxmodel net/minecraft/client/render/entity/model/foxentitymodel
+field_18022;rightLeg2 //foxmodel net/minecraft/client/render/entity/model/foxentitymodel
+field_18018;nose //foxmodel net/minecraft/client/render/entity/model/foxentitymodel
+field_18023;leftLeg2 //foxmodel net/minecraft/client/render/entity/model/foxentitymodel
+field_18017;earRight //foxmodel net/minecraft/client/render/entity/model/foxentitymodel
+field_18024;tail //foxmodel net/minecraft/client/render/entity/model/foxentitymodel
+field_3372[0];tentacle0 //ghastmodel net/minecraft/client/render/entity/model/ghastentitymodel
+field_3373;body //ghastmodel net/minecraft/client/render/entity/model/ghastentitymodel
+field_3372[4];tentacle4 //ghastmodel net/minecraft/client/render/entity/model/ghastentitymodel
+field_3372[3];tentacle3 //ghastmodel net/minecraft/client/render/entity/model/ghastentitymodel
+field_3372[2];tentacle2 //ghastmodel net/minecraft/client/render/entity/model/ghastentitymodel
+field_3372[1];tentacle1 //ghastmodel net/minecraft/client/render/entity/model/ghastentitymodel
+field_3372[8];tentacle8 //ghastmodel net/minecraft/client/render/entity/model/ghastentitymodel
+field_3372[7];tentacle7 //ghastmodel net/minecraft/client/render/entity/model/ghastentitymodel
+field_3372[6];tentacle6 //ghastmodel net/minecraft/client/render/entity/model/ghastentitymodel
+field_3372[5];tentacle5 //ghastmodel net/minecraft/client/render/entity/model/ghastentitymodel
+field_17132;guardianEye //guardianmodel net/minecraft/client/render/entity/model/guardianentitymodel
+field_17131;guardianBody //guardianmodel net/minecraft/client/render/entity/model/guardianentitymodel
+field_3414;ironGolemHead //irongolemmodel net/minecraft/client/render/entity/model/irongolementitymodel
+field_3413;ironGolemRightLeg //irongolemmodel net/minecraft/client/render/entity/model/irongolementitymodel
+field_3415;ironGolemBody //irongolemmodel net/minecraft/client/render/entity/model/irongolementitymodel
+field_3330;chestLid //chestmodel net/minecraft/client/render/entity/model/chestentitymodel
+field_3331;chestKnob //chestmodel net/minecraft/client/render/entity/model/chestentitymodel
+field_3332;chestBelow //chestmodel net/minecraft/client/render/entity/model/chestentitymodel
+field_3433;main //llamaspitmodel net/minecraft/client/render/entity/model/llamaspitentitymodel
+field_3427[1];segment1 //magmacubemodel segments[1] net/minecraft/client/render/entity/model/magmacubeentitymodel
+field_3427[0];segment0 //magmacubemodel segments[0] net/minecraft/client/render/entity/model/magmacubeentitymodel
+field_3427[3];segment3 //magmacubemodel segments[3] net/minecraft/client/render/entity/model/magmacubeentitymodel
+field_3427[2];segment2 //magmacubemodel segments[2] net/minecraft/client/render/entity/model/magmacubeentitymodel
+field_3427[5];segment5 //magmacubemodel segments[5] net/minecraft/client/render/entity/model/magmacubeentitymodel
+field_3427[4];segment4 //magmacubemodel segments[4] net/minecraft/client/render/entity/model/magmacubeentitymodel
+field_3427[7];segment7 //magmacubemodel segments[7] net/minecraft/client/render/entity/model/magmacubeentitymodel
+field_3427[6];segment6 //magmacubemodel segments[6] net/minecraft/client/render/entity/model/magmacubeentitymodel
+field_3428;core //magmacubemodel net/minecraft/client/render/entity/model/magmacubeentitymodel
+field_3432[5];sideModel5 //minecartmodel net/minecraft/client/render/entity/model/minecartentitymodel
+field_3432[4];sideModel4 //minecartmodel net/minecraft/client/render/entity/model/minecartentitymodel
+field_3432[3];sideModel3 //minecartmodel net/minecraft/client/render/entity/model/minecartentitymodel
+field_3432[2];sideModel2 //minecartmodel net/minecraft/client/render/entity/model/minecartentitymodel
+field_3432[1];sideModel1 //minecartmodel net/minecraft/client/render/entity/model/minecartentitymodel
+field_3432[0];sideModel0 //minecartmodel net/minecraft/client/render/entity/model/minecartentitymodel
+field_3459;head2 //parrotmodel net/minecraft/client/render/entity/model/parrotentitymodel
+field_3460;tail //parrotmodel net/minecraft/client/render/entity/model/parrotentitymodel
+field_3452;beak2 //parrotmodel net/minecraft/client/render/entity/model/parrotentitymodel
+field_3455;beak1 //parrotmodel net/minecraft/client/render/entity/model/parrotentitymodel
+field_3461;feather //parrotmodel net/minecraft/client/render/entity/model/parrotentitymodel
+field_3451;legLeft //parrotmodel net/minecraft/client/render/entity/model/parrotentitymodel
+field_3458;body //parrotmodel net/minecraft/client/render/entity/model/parrotentitymodel
+field_3453;legRight //parrotmodel net/minecraft/client/render/entity/model/parrotentitymodel
+field_3475;field_203070_a //phantommodel net/minecraft/client/render/entity/model/phantomentitymodel
+field_3476;head //phantommodel net/minecraft/client/render/entity/model/phantomentitymodel
+field_3474;field_204233_g //phantommodel net/minecraft/client/render/entity/model/phantomentitymodel
+field_3477;field_203071_b //phantommodel net/minecraft/client/render/entity/model/phantomentitymodel
+field_3472;field_204234_h //phantommodel net/minecraft/client/render/entity/model/phantomentitymodel
+field_3486;bipedRightArmwear //playermodel net/minecraft/client/render/entity/model/playerentitymodel
+field_3485;bipedCape //playermodel net/minecraft/client/render/entity/model/playerentitymodel
+field_3483;bipedBodyWear //playermodel net/minecraft/client/render/entity/model/playerentitymodel
+field_3484;bipedLeftArmwear //playermodel net/minecraft/client/render/entity/model/playerentitymodel
+field_3481;bipedDeadmau5Head //playermodel net/minecraft/client/render/entity/model/playerentitymodel
+field_3526;rabbitLeftArm //rabbitmodel net/minecraft/client/render/entity/model/rabbitentitymodel
+field_3527;rabbitRightEar //rabbitmodel net/minecraft/client/render/entity/model/rabbitentitymodel
+field_3523;rabbitNose //rabbitmodel net/minecraft/client/render/entity/model/rabbitentitymodel
+field_3521;rabbitLeftEar //rabbitmodel net/minecraft/client/render/entity/model/rabbitentitymodel
+field_3532;rabbitRightFoot //rabbitmodel net/minecraft/client/render/entity/model/rabbitentitymodel
+field_3525;rabbitLeftFoot //rabbitmodel net/minecraft/client/render/entity/model/rabbitentitymodel
+field_3528;rabbitHead //rabbitmodel net/minecraft/client/render/entity/model/rabbitentitymodel
+field_3522;rabbitRightArm //rabbitmodel net/minecraft/client/render/entity/model/rabbitentitymodel
+field_3529;rabbitTail //rabbitmodel net/minecraft/client/render/entity/model/rabbitentitymodel
+field_3389;body //ravagermodel net/minecraft/client/render/entity/model/ravagerentitymodel
+field_3382;leg0 //ravagermodel net/minecraft/client/render/entity/model/ravagerentitymodel
+field_3384;field_217175_k //ravagermodel net/minecraft/client/render/entity/model/ravagerentitymodel
+field_3386;head //ravagermodel net/minecraft/client/render/entity/model/ravagerentitymodel
+field_3386/0;field_217168_a/0 //ravagermodel net/minecraft/client/render/entity/model/ravagerentitymodel
+field_3388;lowerMouth //ravagermodel net/minecraft/client/render/entity/model/ravagerentitymodel
+field_3386/1;field_217168_a/1 //ravagermodel net/minecraft/client/render/entity/model/ravagerentitymodel
+field_3387;field_217170_f //ravagermodel net/minecraft/client/render/entity/model/ravagerentitymodel
+field_3385;field_217171_g //ravagermodel net/minecraft/client/render/entity/model/ravagerentitymodel
+field_3383;field_217172_h //ravagermodel net/minecraft/client/render/entity/model/ravagerentitymodel
+field_3546;bodyFront //salmonmodel net/minecraft/client/render/entity/model/salmonentitymodel
+field_3548;bodyRear //salmonmodel net/minecraft/client/render/entity/model/salmonentitymodel
+field_3556;renderer //shulkerbulletmodel net/minecraft/client/render/entity/model/shulkerbulletentitymodel
+field_3555;base //shulkermodel net/minecraft/client/render/entity/model/shulkerentitymodel
+field_3553;head //shulkermodel net/minecraft/client/render/entity/model/shulkerentitymodel
+field_3562;signBoard //signmodel net/minecraft/client/render/entity/model/signblockentitymodel
+field_3563;signStick //signmodel net/minecraft/client/render/entity/model/signblockentitymodel
+field_3557[0];silverfishWing0 //silverfishmodel net/minecraft/client/render/entity/model/silverfishentitymodel
+field_3560[6];silverfishBodyPart6 //silverfishmodel net/minecraft/client/render/entity/model/silverfishentitymodel
+field_3560[1];silverfishBodyPart1 //silverfishmodel net/minecraft/client/render/entity/model/silverfishentitymodel
+field_3560[0];silverfishBodyPart0 //silverfishmodel net/minecraft/client/render/entity/model/silverfishentitymodel
+field_3560[5];silverfishBodyPart5 //silverfishmodel net/minecraft/client/render/entity/model/silverfishentitymodel
+field_3560[4];silverfishBodyPart4 //silverfishmodel net/minecraft/client/render/entity/model/silverfishentitymodel
+field_3560[3];silverfishBodyPart3 //silverfishmodel net/minecraft/client/render/entity/model/silverfishentitymodel
+field_3557[1];silverfishWing1 //silverfishmodel net/minecraft/client/render/entity/model/silverfishentitymodel
+field_3560[2];silverfishBodyPart2 //silverfishmodel net/minecraft/client/render/entity/model/silverfishentitymodel
+field_3557[2];silverfishWing2 //silverfishmodel net/minecraft/client/render/entity/model/silverfishentitymodel
+field_3571;slimeBodies //slimemodel net/minecraft/client/render/entity/model/slimeentitymodel
+field_3573;slimeRightEye //slimemodel net/minecraft/client/render/entity/model/slimeentitymodel
+field_3569;bottomBody //snowmanmodel net/minecraft/client/render/entity/model/snowmanentitymodel
+field_3583;head //spidermodel net/minecraft/client/render/entity/model/spiderentitymodel
+field_3585;neck //spidermodel net/minecraft/client/render/entity/model/spiderentitymodel
+field_3580;leg4 //spidermodel net/minecraft/client/render/entity/model/spiderentitymodel
+field_3586;leg6 //spidermodel net/minecraft/client/render/entity/model/spiderentitymodel
+field_3584;leg3 //spidermodel net/minecraft/client/render/entity/model/spiderentitymodel
+field_3578;leg5 //spidermodel net/minecraft/client/render/entity/model/spiderentitymodel
+field_3579;leg8 //spidermodel net/minecraft/client/render/entity/model/spiderentitymodel
+field_3577;leg7 //spidermodel net/minecraft/client/render/entity/model/spiderentitymodel
+field_3574[6];squidTentacle6 //squidmodel net/minecraft/client/render/entity/model/squidentitymodel
+field_3574[7];squidTentacle7 //squidmodel net/minecraft/client/render/entity/model/squidentitymodel
+field_3574[4];squidTentacle4 //squidmodel net/minecraft/client/render/entity/model/squidentitymodel
+field_3574[5];squidTentacle5 //squidmodel net/minecraft/client/render/entity/model/squidentitymodel
+field_3574[2];squidTentacle2 //squidmodel net/minecraft/client/render/entity/model/squidentitymodel
+field_3574[3];squidTentacle3 //squidmodel net/minecraft/client/render/entity/model/squidentitymodel
+field_3574[0];squidTentacle0 //squidmodel net/minecraft/client/render/entity/model/squidentitymodel
+field_3574[1];squidTentacle1 //squidmodel net/minecraft/client/render/entity/model/squidentitymodel
+field_3575;body //squidmodel net/minecraft/client/render/entity/model/squidentitymodel
+field_3593/0;part0 //tridentmodel modelRenderer/0 net/minecraft/client/render/entity/model/tridententitymodel
+field_3593/1;part1 //tridentmodel modelRenderer/1 net/minecraft/client/render/entity/model/tridententitymodel
+field_3593/2;part2 //tridentmodel modelRenderer/2 net/minecraft/client/render/entity/model/tridententitymodel
+field_3593;modelRenderer //tridentmodel net/minecraft/client/render/entity/model/tridententitymodel
+field_3612[2];witherHead2 //withermodel heads[2] net/minecraft/client/render/entity/model/witherentitymodel
+field_3612[0];witherHead0 //withermodel heads[0] net/minecraft/client/render/entity/model/witherentitymodel
+field_3612[1];witherHead1 //withermodel heads[1] net/minecraft/client/render/entity/model/witherentitymodel
+field_3613[1];upperBodyPart1 //withermodel upperBodyParts[1] net/minecraft/client/render/entity/model/witherentitymodel
+field_3613[0];upperBodyPart0 //withermodel upperBodyParts[0] net/minecraft/client/render/entity/model/witherentitymodel
+field_3613[2];upperBodyPart2 //withermodel upperBodyParts[2] net/minecraft/client/render/entity/model/witherentitymodel
+field_3618;mane //wolfmodel net/minecraft/client/render/entity/model/wolfentitymodel
+field_3622;legFrontLeft //wolfmodel net/minecraft/client/render/entity/model/wolfentitymodel
+field_17144;field_217150_a //zombievillagermodel net/minecraft/client/render/entity/model/zombievillagerentitymodel

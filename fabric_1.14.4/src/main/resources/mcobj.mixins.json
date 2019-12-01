@@ -1,0 +1,21 @@
+{
+  "required": true,
+  "package": "com.tom.mcobj.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+  ],
+  "client": [
+    "JsonUnbakedModelMixin",
+    "ModelLoaderMixin",
+    "CuboidMixin",
+    "BoxMixin",
+    "InitMixin",
+    "TextureManagerMixin",
+    "TerrainRenderContextMixin",
+    "WeightedBakedModelMixin",
+    "ModelEntryMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
