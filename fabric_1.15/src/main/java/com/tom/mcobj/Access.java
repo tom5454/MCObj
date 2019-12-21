@@ -6,7 +6,7 @@ import java.util.function.Consumer;
 
 import net.fabricmc.fabric.api.renderer.v1.model.FabricBakedModel;
 import net.fabricmc.fabric.api.renderer.v1.render.RenderContext;
-import net.fabricmc.indigo.renderer.render.ObjQuadRenderer;
+import net.fabricmc.fabric.impl.client.indigo.renderer.render.ObjQuadRenderer;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.model.Model;
@@ -19,6 +19,8 @@ import net.minecraft.client.render.entity.PlayerEntityRenderer;
 import net.minecraft.client.render.model.BakedModel;
 import net.minecraft.client.render.model.json.JsonUnbakedModel;
 import net.minecraft.client.texture.TextureManager;
+import net.minecraft.client.util.math.Matrix3f;
+import net.minecraft.client.util.math.Matrix4f;
 import net.minecraft.client.util.math.Vector3f;
 import net.minecraft.client.util.math.Vector4f;
 import net.minecraft.entity.EntityType;
@@ -76,6 +78,18 @@ public class Access {
 	public static Consumer<BakedModel> FobjRenderer(RenderContext ctx) {
 		return ctx instanceof RCA ? ((RCA)ctx).mcobj_objRenderer() : ctx.fallbackConsumer();
 	}
+	public static void setScale(Matrix3f mat, float x, float y, float z) {
+		((MXA)(Object)mat).mcobj_setScale(x, y, z);
+	}
+	public static void setScale(Matrix4f mat, float x, float y, float z) {
+		((MXA)(Object)mat).mcobj_setScale(x, y, z);
+	}
+	public static void load(Matrix3f mat, float[] d) {
+		((MXA)(Object)mat).mcobj_load(d);
+	}
+	public static void load(Matrix4f mat, float[] d) {
+		((MXA)(Object)mat).mcobj_load(d);
+	}
 
 	public static interface BMA {
 		public JsonUnbakedModel mcobj_getParent();
@@ -113,5 +127,9 @@ public class Access {
 	}
 	public static interface MEA {
 		FabricBakedModel mcobj_getModel();
+	}
+	public static interface MXA {
+		void mcobj_setScale(float x, float y, float z);
+		void mcobj_load(float[] data);
 	}
 }

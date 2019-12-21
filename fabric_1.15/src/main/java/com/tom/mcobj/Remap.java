@@ -21,8 +21,6 @@ import java.util.function.Function;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.model.Model;
 import net.minecraft.client.model.ModelPart;
-import net.minecraft.client.model.ModelPart.Cuboid;
-import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.block.entity.BlockEntityRenderer;
 import net.minecraft.client.render.entity.EntityRenderer;
 import net.minecraft.client.render.entity.PlayerEntityRenderer;
@@ -34,11 +32,9 @@ import net.minecraft.client.render.model.json.JsonUnbakedModel;
 import net.minecraft.client.render.model.json.ModelElement;
 import net.minecraft.client.texture.ResourceTexture;
 import net.minecraft.client.texture.Sprite;
-import net.minecraft.client.util.math.Matrix4f;
-import net.minecraft.client.util.math.Vector3f;
+import net.minecraft.client.util.SpriteIdentifier;
 import net.minecraft.resource.ResourceManager;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.math.Vec2f;
 
 import com.tom.mcobj.forge.BakedQuadBuilder;
 import com.tom.mcobj.forge.Fabric;
@@ -47,8 +43,6 @@ import com.tom.mcobj.forge.OBJModel;
 import com.tom.mcobj.forge.OBJModel.Face;
 import com.tom.mcobj.forge.OBJModel.Material;
 import com.tom.mcobj.forge.OBJModel.MaterialLibrary;
-import com.tom.mcobj.forge.VertexC;
-import com.tom.mcobj.proxy.ClientProxy;
 
 public class Remap {
 	private static final boolean LOG_MODELS = false;
@@ -63,7 +57,7 @@ public class Remap {
 	private static List<List<String>> log_info;
 	public static Map<String, String> fieldRemapper = new HashMap<>();
 	protected static Map<String, String> clazzNames = new HashMap<>();
-	private static Set<String> logSet = new HashSet<>();
+	static Set<String> logSet = new HashSet<>();
 	static {
 		if(LOG_MODELS){
 			names = new HashMap<>();
@@ -242,7 +236,7 @@ public class Remap {
 			throw new RuntimeException(e);
 		}
 	}
-	public static BakedModel bake(ModelLoader bakery, Function<Identifier, Sprite> spriteGetter, ModelBakeSettings sprite, JsonUnbakedModel caller){
+	public static BakedModel bake(ModelLoader bakery, Function<SpriteIdentifier, Sprite> spriteGetter, ModelBakeSettings sprite, JsonUnbakedModel caller){
 		//log.info("Remap.bake()");
 		if(caller.getElements() == EMPTY){
 			BlockModelObj orig = null;
@@ -255,7 +249,7 @@ public class Remap {
 				c = Access.Fparent(c);
 			}
 			//log.info("Baking OBJ");
-			return orig.bake(bakery, spriteGetter, sprite, caller);
+			return orig.bake(bakery, caller, spriteGetter, sprite, null);
 		}
 		else return null;
 	}
@@ -268,10 +262,10 @@ public class Remap {
 			builder.setTint(Integer.parseInt(tintInd));
 		}
 	}
-	public static void getTextures(Set<Identifier> tex, JsonUnbakedModel model){
+	public static void getTextures(Set<SpriteIdentifier> tex, JsonUnbakedModel model){
 		getTextures0(tex, model, model);
 	}
-	private static void getTextures0(Set<Identifier> tex, JsonUnbakedModel model, JsonUnbakedModel top){
+	private static void getTextures0(Set<SpriteIdentifier> tex, JsonUnbakedModel model, JsonUnbakedModel top){
 		if(model instanceof BlockModelObj){
 			BlockModelObj bmo = (BlockModelObj) model;
 			OBJModel obj = bmo.getObjModel();
@@ -279,7 +273,7 @@ public class Remap {
 				MaterialLibrary ml = obj.getMatLib();
 				for (String mat : ml.getMaterialNames()) {
 					Material m = ml.getMaterial(mat);
-					Identifier rl = new Identifier(top.resolveTexture(m.getTexture().getPath()));
+					SpriteIdentifier rl = top.method_24077(m.getTexture().getPath());
 					tex.add(rl);
 				}
 			} catch (IllegalArgumentException e) {
@@ -287,91 +281,6 @@ public class Remap {
 			}
 		}else if(model != null) {
 			getTextures0(tex, Access.Fparent(model), top);
-		}
-	}
-	public static boolean renderCuboid(Matrix4f matrix4f_1, VertexConsumer vertexConsumer_1, float float_1, int int_1, int int_2,
-			Sprite sprite_1, float float_2, float float_3, float float_4, List<Cuboid> cuboids, ModelPart this$0,
-			float textureWidth, float textureHeight, String mcobj_name, float pivotX, float pivotY, float pivotZ) {
-		ModelName name = toName(this$0);
-		if(!logSet.contains(name.toString())){
-			log.info("Compiling: " + name);
-			logSet.add(name.toString());
-		}
-		com.tom.mcobj.EntityModelLoader.Model m = ClientProxy.loader.getModel(name.model);
-		if(m == null){
-			m = ClientProxy.loader.getModel("model_box");
-			if(m == null)
-				return false;
-			else {
-				VertexC vc = new VertexC(matrix4f_1, vertexConsumer_1, float_1, int_1, int_2, sprite_1, float_2, float_3, float_4);
-				for(int i = 0; i < cuboids.size(); ++i) {
-					vc.push();
-					Cuboid box = cuboids.get(i);
-					float dx = box.maxX - box.minX;
-					float dy = box.maxY - box.minY;
-					float dz = box.maxZ - box.minZ;
-					Vector3f delta = Access.Fdelta(box);
-					vc.translate((box.minX - delta.getX()) / 16f, (box.minY - delta.getY()) / 16f, (box.minZ - delta.getZ()) / 16f);
-					vc.scale(dx + delta.getX()*2, dy + delta.getY()*2, dz + delta.getZ()*2);
-					int texU = Access.FtexU(box);
-					int texV = Access.FtexV(box);
-					float w = dx * 2 + dz * 2;
-					float h = (dy + dz) * 2;
-					m.renderReUV(vc, uv -> {
-						float x = uv.x;
-						float y = 1 - uv.y;
-						float qx = (x % .25f) * 4;
-						float qy = (y % .25f) * 4;
-						float u = texU + (x) * w;
-						float v = texV + (y) * h;
-						String block = null;
-						if(x >= .25f && x < .5f && y < .25f){//xW zH
-							block = "top";
-							u = texU + dz +  qx * dx;
-							v = texV +       qy * dz;
-						}else if(x >= .5f && x < .75f && y < .25f){//xW zH
-							block = "bottom";
-							u = texU + dz + dx +  qx * dx;
-							v = texV +            qy * dz;
-						}else if(x < .25f && y < .5f && y >= .25f){//zW yH
-							block = "left";
-							u = texU +       qx * dz;
-							v = texV + dz +  qy * dy;
-						}else if(x < .5f && x >= .25f && y < .5f && y >= .25f){//xW yH
-							block = "front";
-							u = texU + dz +  qx * dx;
-							v = texV + dz +  qy * dy;
-						}else if(x < .75f && x >= .5f && y < .5f && y >= .25f){//zW yH
-							block = "right";
-							u = texU + dz + dx +  qx * dz;
-							v = texV + dz +       qy * dy;
-						}else if(x >= .75f && y < .5f && y >= .25f){//xW yH
-							block = "back";
-							u = texU + dz * 2 + dx +  qx * dx;
-							v = texV + dz +           qy * dy;
-						}
-						/*if(block != null){
-							log.info(block + " " + texU + " " + texV + " " + x + " " + y + " " + dx + " " + dy + " " + dz);
-							log.info(u + " " + v);
-						}*/
-						return new Vec2f(
-								u / textureWidth,//x,//
-								v / textureHeight//-y//
-								);
-					});
-				}
-				return true;
-			}
-		}else{
-			VertexC vc = new VertexC(matrix4f_1, vertexConsumer_1, float_1, int_1, int_2, sprite_1, float_2, float_3, float_4);
-			vc.push();
-			float scale = float_1;
-			vc.translate(-pivotX / 16, -pivotY / 16, -pivotZ / 16);
-			vc.scale(scale*256, -scale*256, -scale*256);
-			vc.translate(0, -1/16f, -1/16f);
-			if(!m.renderNormal(Remap.fieldRemapper.getOrDefault(mcobj_name, mcobj_name), vc))
-				m.renderNormal(mcobj_name, vc);
-			return true;
 		}
 	}
 	public static void clearCache() {

@@ -3,10 +3,10 @@ package com.tom.mcobj.mixin;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 
-import net.fabricmc.indigo.renderer.render.ChunkRenderInfo;
-import net.fabricmc.indigo.renderer.render.ObjQuadRenderer;
-import net.fabricmc.indigo.renderer.render.TerrainFallbackConsumer;
-import net.fabricmc.indigo.renderer.render.TerrainRenderContext;
+import net.fabricmc.fabric.impl.client.indigo.renderer.render.ChunkRenderInfo;
+import net.fabricmc.fabric.impl.client.indigo.renderer.render.ObjQuadRenderer;
+import net.fabricmc.fabric.impl.client.indigo.renderer.render.TerrainFallbackConsumer;
+import net.fabricmc.fabric.impl.client.indigo.renderer.render.TerrainRenderContext;
 
 import com.tom.mcobj.Access.RCA;
 

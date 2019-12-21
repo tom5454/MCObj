@@ -1,6 +1,6 @@
 package com.tom.mcobj.forge;
 
-import net.fabricmc.indigo.renderer.mesh.EncodingFormat;
+import net.fabricmc.fabric.impl.client.indigo.renderer.mesh.EncodingFormat;
 import net.minecraft.client.render.model.BakedQuad;
 import net.minecraft.client.texture.Sprite;
 import net.minecraft.util.math.Direction;

@@ -12,11 +12,13 @@ import net.minecraft.client.model.Model;
 import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.model.ModelPart.Cuboid;
 import net.minecraft.client.render.VertexConsumer;
-import net.minecraft.client.texture.Sprite;
-import net.minecraft.client.util.math.Matrix4f;
+import net.minecraft.client.util.math.MatrixStack;
 
 import com.tom.mcobj.Access.CBA;
 import com.tom.mcobj.Remap;
+import com.tom.mcobj.Remap2;
+
+import it.unimi.dsi.fastutil.objects.ObjectList;
 
 @Mixin(ModelPart.class)
 public class CuboidMixin implements CBA {
@@ -27,10 +29,10 @@ public class CuboidMixin implements CBA {
 	public ModelPart mcobj_parentRenderer;
 
 	@Shadow
-	private List<ModelPart> children;
+	private ObjectList<ModelPart> children;
 
 	@Shadow
-	private List<Cuboid> cuboids;
+	private ObjectList<Cuboid> cuboids;
 
 	@Shadow
 	private float textureWidth;
@@ -60,9 +62,8 @@ public class CuboidMixin implements CBA {
 	}
 
 	@Inject(method = "renderCuboids", at = @At("HEAD"), cancellable = true)
-	public void mcobj_renderCuboids(Matrix4f matrix4f_1, VertexConsumer vertexConsumer_1, float float_1, int int_1, int int_2,
-			Sprite sprite_1, float float_2, float float_3, float float_4, CallbackInfo cbi) {
-		if(Remap.renderCuboid(matrix4f_1, vertexConsumer_1, float_1, int_1, int_2, sprite_1, float_2, float_3, float_4,
+	public void mcobj_renderCuboids(MatrixStack.Entry matrix4f_1, VertexConsumer vertexConsumer_1, int int_1, int int_2, float float_1, float float_2, float float_3, float float_4, CallbackInfo cbi) {
+		if(Remap2.renderCuboid(matrix4f_1, vertexConsumer_1, int_1, int_2, float_1, float_2, float_3, float_4,
 				cuboids, (ModelPart)(Object) this, textureWidth, textureHeight, mcobj_name, pivotX, pivotY, pivotZ))
 			cbi.cancel();
 	}

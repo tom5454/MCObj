@@ -21,11 +21,15 @@ import net.minecraft.client.render.model.json.ModelElement;
 import net.minecraft.client.render.model.json.ModelItemPropertyOverrideList;
 import net.minecraft.client.render.model.json.ModelTransformation;
 import net.minecraft.client.texture.Sprite;
+import net.minecraft.client.texture.SpriteAtlasTexture;
+import net.minecraft.client.util.SpriteIdentifier;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.BlockRenderView;
+
+import com.mojang.datafixers.util.Pair;
 
 import com.google.common.collect.ImmutableMap;
 
@@ -99,23 +103,22 @@ public class BlockModelObj extends JsonUnbakedModel {
 		return parent.getModelDependencies();
 	}
 	@Override
-	public Collection<Identifier> getTextureDependencies(Function<Identifier, UnbakedModel> modelGetter, Set<String> missingTextureErrors) {
+	public Collection<SpriteIdentifier> getTextureDependencies(Function<Identifier, UnbakedModel> modelGetter,
+			Set<Pair<String, String>> missingTextureErrors) {
 		return parent.getTextureDependencies(modelGetter, missingTextureErrors);
 	}
 	@Override
-	public BakedModel bake(ModelLoader p_217641_1_, Function<Identifier, Sprite> p_217641_2_, ModelBakeSettings p_217641_3_, Identifier id) {
-		return parent.bake(p_217641_1_, p_217641_2_, p_217641_3_, id);
-	}
-	public BakedModel bake(ModelLoader bakery, Function<Identifier, Sprite> spriteGetter, ModelBakeSettings sprite, JsonUnbakedModel caller) {
+	public BakedModel bake(ModelLoader bakery, JsonUnbakedModel caller, Function<SpriteIdentifier, Sprite> spriteGetter,
+			ModelBakeSettings sprite, Identifier identifier_1) {
 		ImmutableMap.Builder<String, Sprite> builder = ImmutableMap.builder();
-		Sprite missing = spriteGetter.apply(new Identifier("missingno"));
+		Sprite missing = spriteGetter.apply(new SpriteIdentifier(SpriteAtlasTexture.BLOCK_ATLAS_TEX, new Identifier("missingno")));
 		try {
 			MaterialLibrary ml = parent.getMatLib();
 			for (String mat : ml.getMaterialNames()) {
 				Material m = ml.getMaterial(mat);
-				Identifier rl = new Identifier(caller.resolveTexture(m.getTexture().getPath()));
+				SpriteIdentifier rl = caller.method_24077(m.getTexture().getPath());
 				Sprite tex = spriteGetter.apply(rl);
-				if(tex == missing && !rl.getPath().equals("missingno")){
+				if(tex == missing && !rl.getTextureId().getPath().equals("missingno")){
 					//missingTexs.add(rl);
 				}
 				builder.put(mat, tex);
@@ -125,9 +128,9 @@ public class BlockModelObj extends JsonUnbakedModel {
 		}
 		builder.put("missingno", missing);
 		Sprite particle;
-		Identifier rl = new Identifier(caller.resolveTexture("particle"));
+		SpriteIdentifier rl = caller.method_24077("particle");
 		particle = spriteGetter.apply(rl);
-		if(particle == missing && !rl.getPath().equals("missingno")){
+		if(particle == missing && !rl.getTextureId().getPath().equals("missingno")){
 			//missingTexs.add(rl);
 		}
 		OBJBakedModel baked = parent.new OBJBakedModel(parent, new FMR(sprite.getRotation()), builder.build());

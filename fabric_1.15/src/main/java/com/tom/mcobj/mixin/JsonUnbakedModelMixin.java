@@ -15,6 +15,7 @@ import net.minecraft.client.render.model.ModelBakeSettings;
 import net.minecraft.client.render.model.ModelLoader;
 import net.minecraft.client.render.model.json.JsonUnbakedModel;
 import net.minecraft.client.texture.Sprite;
+import net.minecraft.client.util.SpriteIdentifier;
 import net.minecraft.util.Identifier;
 
 import com.tom.mcobj.Access.BMA;
@@ -26,15 +27,15 @@ public class JsonUnbakedModelMixin implements BMA {
 	protected JsonUnbakedModel parent;
 
 	@Inject(method = "bake", at = @At("HEAD"), cancellable = true)
-	public void mcobj_onBake(ModelLoader bakery, Function<Identifier, Sprite> spriteGetter,
+	public void mcobj_onBake(ModelLoader bakery, Function<SpriteIdentifier, Sprite> spriteGetter,
 			ModelBakeSettings sprite, Identifier id, CallbackInfoReturnable<BakedModel> caller) {
 		BakedModel bm = Remap.bake(bakery, spriteGetter, sprite, (JsonUnbakedModel)(Object) this);
 		if(bm != null)caller.setReturnValue(bm);
 	}
 
 	@Inject(method = "getTextureDependencies", at = @At("RETURN"))
-	public void mcobj_onGetTextureDependencies(CallbackInfoReturnable<Collection<Identifier>> cir) {
-		Remap.getTextures((Set<Identifier>) cir.getReturnValue(), (JsonUnbakedModel)(Object) this);
+	public void mcobj_onGetTextureDependencies(CallbackInfoReturnable<Collection<SpriteIdentifier>> cir) {
+		Remap.getTextures((Set<SpriteIdentifier>) cir.getReturnValue(), (JsonUnbakedModel)(Object) this);
 	}
 
 	@Override

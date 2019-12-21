@@ -1,4 +1,4 @@
-package net.fabricmc.indigo.renderer.render;
+package net.fabricmc.fabric.impl.client.indigo.renderer.render;
 
 import java.util.List;
 import java.util.Random;
@@ -7,11 +7,15 @@ import java.util.function.Supplier;
 
 import net.fabricmc.fabric.api.renderer.v1.mesh.QuadEmitter;
 import net.fabricmc.fabric.api.renderer.v1.model.ModelHelper;
-import net.fabricmc.indigo.renderer.IndigoRenderer;
-import net.fabricmc.indigo.renderer.RenderMaterialImpl.Value;
-import net.fabricmc.indigo.renderer.helper.GeometryHelper;
-import net.fabricmc.indigo.renderer.mesh.EncodingFormat;
-import net.fabricmc.indigo.renderer.mesh.MutableQuadViewImpl;
+import net.fabricmc.fabric.impl.client.indigo.renderer.IndigoRenderer;
+import net.fabricmc.fabric.impl.client.indigo.renderer.RenderMaterialImpl.Value;
+import net.fabricmc.fabric.impl.client.indigo.renderer.helper.GeometryHelper;
+import net.fabricmc.fabric.impl.client.indigo.renderer.mesh.EncodingFormat;
+import net.fabricmc.fabric.impl.client.indigo.renderer.mesh.MutableQuadViewImpl;
+import net.fabricmc.fabric.impl.client.indigo.renderer.render.AbstractQuadRenderer;
+import net.fabricmc.fabric.impl.client.indigo.renderer.render.ChunkRenderInfo;
+import net.fabricmc.fabric.impl.client.indigo.renderer.render.CompatibilityHelper;
+import net.fabricmc.fabric.impl.client.indigo.renderer.render.TerrainFallbackConsumer;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.render.model.BakedModel;
 import net.minecraft.client.render.model.BakedQuad;

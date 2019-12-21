@@ -32,12 +32,16 @@ import net.minecraft.client.render.model.UnbakedModel;
 import net.minecraft.client.render.model.json.ModelItemPropertyOverrideList;
 import net.minecraft.client.render.model.json.ModelTransformation;
 import net.minecraft.client.texture.Sprite;
+import net.minecraft.client.texture.SpriteAtlasTexture;
+import net.minecraft.client.util.SpriteIdentifier;
 import net.minecraft.client.util.math.Rotation3;
 import net.minecraft.resource.Resource;
 import net.minecraft.resource.ResourceManager;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec2f;
+
+import com.mojang.datafixers.util.Pair;
 
 import com.google.common.base.Strings;
 import com.google.common.cache.CacheBuilder;
@@ -73,14 +77,14 @@ public class OBJModel implements UnbakedModel
 	}
 
 	@Override
-	public Collection<Identifier> getTextureDependencies(Function<Identifier, UnbakedModel> modelGetter, Set<String> missingTextureErrors)
+	public Collection<SpriteIdentifier> getTextureDependencies(Function<Identifier, UnbakedModel> modelGetter, Set<Pair<String, String>> missingTextureErrors)
 	{
 		Iterator<OBJModel.Material> materialIterator = this.matLib.materials.values().iterator();
-		List<Identifier> textures = Lists.newArrayList();
+		List<SpriteIdentifier> textures = Lists.newArrayList();
 		while (materialIterator.hasNext())
 		{
 			OBJModel.Material mat = materialIterator.next();
-			Identifier textureLoc = new Identifier(mat.getTexture().getPath());
+			SpriteIdentifier textureLoc = new SpriteIdentifier(SpriteAtlasTexture.BLOCK_ATLAS_TEX, new Identifier(mat.getTexture().getPath()));
 			if (!textures.contains(textureLoc) && !mat.isWhite())
 				textures.add(textureLoc);
 		}
@@ -94,11 +98,11 @@ public class OBJModel implements UnbakedModel
 	}
 
 	@Override
-	public BakedModel bake(ModelLoader bakery, Function<Identifier, Sprite> spriteGetter, ModelBakeSettings sprite,
+	public BakedModel bake(ModelLoader bakery, Function<SpriteIdentifier, Sprite> spriteGetter, ModelBakeSettings sprite,
 			Identifier arg3) {
 		ImmutableMap.Builder<String, Sprite> builder = ImmutableMap.builder();
 		//builder.put(ModelLoader.White.LOCATION.toString(), ModelLoader.White.INSTANCE);
-		Sprite missing = spriteGetter.apply(new Identifier("missingno"));
+		Sprite missing = spriteGetter.apply(new SpriteIdentifier(SpriteAtlasTexture.BLOCK_ATLAS_TEX, new Identifier("missingno")));
 		for (Map.Entry<String, OBJModel.Material> e : matLib.materials.entrySet())
 		{
 			if (e.getValue().getTexture().getTextureLocation().getPath().startsWith("#"))
@@ -108,7 +112,7 @@ public class OBJModel implements UnbakedModel
 			}
 			else
 			{
-				builder.put(e.getKey(), spriteGetter.apply(e.getValue().getTexture().getTextureLocation()));
+				builder.put(e.getKey(), spriteGetter.apply(new SpriteIdentifier(SpriteAtlasTexture.BLOCK_ATLAS_TEX, e.getValue().getTexture().getTextureLocation())));
 			}
 		}
 		builder.put("missingno", missing);
@@ -1099,7 +1103,7 @@ public class OBJModel implements UnbakedModel
 		private ImmutableList<BakedQuad> quads;
 		private ImmutableMap<String, Sprite> textures;
 		private Sprite sprite = null;
-		private VertexFormat format = VertexFormats.POSITION_COLOR_UV_NORMAL;
+		private VertexFormat format = VertexFormats.POSITION_COLOR_TEXTURE_LIGHT;//VertexFormats.POSITION_COLOR_UV_NORMAL;
 		private IModelState state;
 
 		public OBJBakedModel(OBJModel model, IModelState state, ImmutableMap<String, Sprite> textures)
@@ -1186,13 +1190,13 @@ public class OBJModel implements UnbakedModel
 			}
 			float u, v, lu, lv;
 			if (!ve.hasTextureCoordinate()){
-				u = sprite.getU(defUV.u * 16);
-				v = sprite.getV((model.customData.flipV ? 1 - defUV.v: defUV.v) * 16);
+				u = sprite.getFrameU(defUV.u * 16);
+				v = sprite.getFrameV((model.customData.flipV ? 1 - defUV.v: defUV.v) * 16);
 				lu = defUV.u;
 				lv = defUV.v;
 			} else {
-				u = sprite.getU(ve.getTextureCoordinate().u * 16);
-				v = sprite.getV((model.customData.flipV ? 1 - ve.getTextureCoordinate().v : ve.getTextureCoordinate().v) * 16);
+				u = sprite.getFrameU(ve.getTextureCoordinate().u * 16);
+				v = sprite.getFrameV((model.customData.flipV ? 1 - ve.getTextureCoordinate().v : ve.getTextureCoordinate().v) * 16);
 				lu = ve.getTextureCoordinate().u;
 				lv = ve.getTextureCoordinate().v;
 			}

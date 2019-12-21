@@ -16,7 +16,9 @@
     "EntityRenderDispatcherMixin",
     "TerrainRenderContextMixin",
     "WeightedBakedModelMixin",
-    "ModelEntryMixin"
+    "ModelEntryMixin",
+    "Mat3Mixin",
+    "Mat4Mixin"
   ],
   "injectors": {
     "defaultRequire": 1

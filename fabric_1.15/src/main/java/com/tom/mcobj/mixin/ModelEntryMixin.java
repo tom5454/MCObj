@@ -8,7 +8,7 @@ import net.minecraft.client.render.model.BakedModel;
 
 import com.tom.mcobj.Access.MEA;
 
-@Mixin(targets = "net.minecraft.client.render.model.WeightedBakedModel$ModelEntry")
+@Mixin(targets = "net.minecraft.client.render.model.WeightedBakedModel$Entry")
 public class ModelEntryMixin implements MEA {
 	@Shadow
 	protected BakedModel model;

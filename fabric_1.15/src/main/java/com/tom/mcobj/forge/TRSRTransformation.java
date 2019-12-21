@@ -56,7 +56,7 @@ public class TRSRTransformation implements IModelState {
 
 	public Vector4f transformPosition(Vector4f pos) {
 		Vector4f v = new Vector4f(pos.getX() - 0.5f, pos.getY() - 0.5f, pos.getZ() - 0.5f, Access.Fw(pos) - 0.5f);
-		v.multiply(rot3.getMatrix());
+		v.transform(rot3.getMatrix());
 		return new Vector4f(v.getX() + 0.5f, v.getY() + 0.5f, v.getZ() + 0.5f, Access.Fw(v) + 0.5f);
 	}
 	public static TRSRTransformation from(ModelRotation rotation) {
@@ -65,9 +65,11 @@ public class TRSRTransformation implements IModelState {
 
 	private TRSRTransformation(Map<String, Object> elems) {
 		List<Object> matA = (List<Object>) elems.get("mat");
-		this.mat = new Matrix4f(toArray(matA, 16));
+		this.mat = new Matrix4f();
+		Access.load(mat, toArray(matA, 16));
 		matA = (List<Object>) elems.get("nmat");
-		this.normalTransform = new Matrix3f(toArray(matA, 9), false);
+		this.normalTransform = new Matrix3f();
+		Access.load(normalTransform, toArray(matA, 9));
 	}
 
 	public TRSRTransformation(Rotation3 rotation) {
