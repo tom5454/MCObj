@@ -5,8 +5,6 @@ import static org.objectweb.asm.Opcodes.*;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
@@ -43,6 +41,7 @@ import net.minecraft.client.renderer.texture.SimpleTexture;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.vertex.VertexFormat;
 import net.minecraft.resources.IResourceManager;
+import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.Vec2f;
 
@@ -273,10 +272,30 @@ public class Remap {
 	public static void bakeObjQuads(UnpackedBakedQuad.Builder builder, Face f, OBJModel model){
 		Material mat = model.getMatLib().getMaterial(f.getMaterialName());
 		String name = mat.getName();
-		int ind = name.indexOf("#tint");
-		if(ind > -1){
-			String tintInd = name.substring(ind + 5);
-			builder.setQuadTint(Integer.parseInt(tintInd));
+		String[] spl = name.split("#");
+		try {
+			for (int i = 1; i < spl.length; i++) {
+				String string = spl[i];
+				if(string.startsWith("tint") && !string.contains(":")) {
+					builder.setQuadTint(Integer.parseInt(string.substring(4)));//legacy
+					continue;
+				}
+				String[] sp = string.split(":");
+				switch (sp[0]) {
+				case "tint":
+					builder.setQuadTint(Integer.parseInt(sp[1]));
+					break;
+
+				case "cull":
+					Access.FcullS(builder, Direction.byName(sp[1]));
+					break;
+
+				default:
+					break;
+				}
+			}
+		} catch (Exception e) {
+			MCObjInit.log.warn("Failed to bake obj quad", e);
 		}
 	}
 	public static void getTextures(Set<ResourceLocation> tex, BlockModel model){
@@ -546,106 +565,8 @@ public class Remap {
 			}
 		}
 	}
-	public static void main(String[] args) {
-		//SRG, normal
-		//BiMap<String, String> mapping = HashBiMap.create();
-		//normal, SRGs
-		Map<String, List<String>> mappings = new HashMap<>();
-		System.out.println("Loading mappings");
-		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-		try (BufferedReader r = new BufferedReader(new FileReader("fields.csv"))){
-			r.readLine();
-			String ln;
-			while((ln = r.readLine()) != null){
-				String[] sp = ln.split(",", 4);
-				if("0".equals(sp[2])){
-					//mapping.put(sp[0], sp[1]);
-					mappings.computeIfAbsent(sp[1], k -> new ArrayList<>()).add(sp[0]);
-				}
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-			return;
-		}
-		System.out.println("Loaded mappings");
-		try (BufferedReader r = new BufferedReader(new InputStreamReader(Remap.class.getResourceAsStream("/com/tom/mcobj/modelnames.txt")));
-				PrintWriter w = new PrintWriter("modelexport.txt")){
-			String ln;
-			while((ln = r.readLine()) != null){
-				String pln = ln;
-				String comment = "";
-				int commentStart = pln.indexOf("//");
-				if(commentStart > -1){
-					pln = pln.substring(0, commentStart).trim();
-					comment = ln.substring(commentStart + 2).trim();
-				}
-				String[] sp = pln.split(";");
-				if(sp.length < 2){
-					sp = new String[]{sp[0], ""};
-				}
-				boolean askRename = false;
-				if(sp[0].isEmpty()){//SRG
-					String name = sp[1];
-					String add = null;
-					if(name.contains("[")){
-						int ind = name.indexOf('[');
-						add = name.substring(ind);
-						name = name.substring(0, ind);
-						askRename = true;
-					}
-					if(name.contains("/")){
-						int ind = name.indexOf('/');
-						add = name.substring(ind);
-						name = name.substring(0, ind);
-						askRename = true;
-					}
-					List<String> srg = mappings.get(name);
-					if(srg == null){
-						System.out.println("Enter SRG name for " + ln);
-						sp[0] = in.readLine();
-					}else if(srg.size() > 1){
-						System.out.println("Select mapping for: " + ln);
-						for (int i = 0; i < srg.size(); i++) {
-							System.out.println(i + ": " + srg.get(i));
-						}
-						int id = -1;
-						while(id == -1){
-							try {
-								id = Integer.parseInt(in.readLine());
-								if(id < 0 || id >= srg.size()){
-									System.err.println("Out of bounds");
-									id = -1;
-								}
-							} catch (NumberFormatException e) {
-								id = -1;
-							}
-						}
-						sp[0] = srg.get(id);
-					}else{
-						sp[0] = srg.get(0);
-					}
-					if(add != null)sp[0] += add;
-				}else if(sp[1].isEmpty()){//normal
-					System.out.println("Enter name for " + ln);
-					String name = in.readLine();
-					if(!name.trim().isEmpty())
-						sp[1] = name;
-					else
-						sp[1] = sp[0];
-					askRename = false;
-				}
-				if(askRename){
-					System.out.println("Rename? " + ln + " SRG: " + sp[0]);
-					String name = in.readLine();
-					if(!name.trim().isEmpty()){
-						comment = comment + " " + sp[1];
-						sp[1] = name;
-					}
-				}
-				w.println(sp[0] + ";" + sp[1] + " //" + comment);
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+	public static UnpackedBakedQuad finishQuad(UnpackedBakedQuad upq, UnpackedBakedQuad.Builder b) {
+		Access.FcullS(upq, Access.Fcull(b));
+		return upq;
 	}
 }

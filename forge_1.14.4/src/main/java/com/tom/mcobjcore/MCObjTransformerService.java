@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.annotation.Nonnull;
 
@@ -26,13 +27,14 @@ import cpw.mods.modlauncher.api.IEnvironment;
 import cpw.mods.modlauncher.api.INameMappingService.Domain;
 import cpw.mods.modlauncher.api.ITransformationService;
 import cpw.mods.modlauncher.api.ITransformer;
+import cpw.mods.modlauncher.api.ITransformer.Target;
 import cpw.mods.modlauncher.api.ITransformerVotingContext;
 import cpw.mods.modlauncher.api.IncompatibleEnvironmentException;
 import cpw.mods.modlauncher.api.TransformerVoteResult;
 
 public class MCObjTransformerService implements ITransformationService {
 	private String DYNAMIC = "MCOBJAccessDyn";
-	private List<ITransformer<?>> transformers;
+	private List<Transformer> transformers;
 	private String getUnbakedModel, getTextures, compileDisplayList, compiled, displayList, bindTexture, addChild;
 	@Nonnull
 	@Override
@@ -57,7 +59,6 @@ public class MCObjTransformerService implements ITransformationService {
 
 	@Override
 	public void onLoad(final IEnvironment env, final Set<String> otherServices) throws IncompatibleEnvironmentException {
-
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
@@ -65,10 +66,10 @@ public class MCObjTransformerService implements ITransformationService {
 	@Override
 	public List<ITransformer> transformers() {
 		transformers = new ArrayList<>();
-		transformers.add(new ITransformer<ClassNode>(){
+		transformers.add(new Transformer("net.minecraftforge.client.model.ModelLoader"){
 
 			@Override
-			public ClassNode transform(ClassNode input, ITransformerVotingContext context) {
+			public ClassNode transform(ClassNode input) {
 				String remapClass = "com/tom/mcobj/Remap";
 				MethodNode node = ASMAPI.getMethodNode();
 				node.tryCatchBlocks = new ArrayList<>();
@@ -102,21 +103,11 @@ public class MCObjTransformerService implements ITransformationService {
 
 				return input;
 			}
-
-			@Override
-			public TransformerVoteResult castVote(ITransformerVotingContext context) {
-				return TransformerVoteResult.YES;
-			}
-
-			@Override
-			public Set<Target> targets() {
-				return Collections.singleton(Target.targetClass("net.minecraftforge.client.model.ModelLoader"));
-			}
 		});
-		transformers.add(new ITransformer<ClassNode>(){
+		transformers.add(new Transformer("net.minecraft.client.renderer.model.BlockModel"){
 
 			@Override
-			public ClassNode transform(ClassNode input, ITransformerVotingContext context) {
+			public ClassNode transform(ClassNode input) {
 				String bakeDesc = "(Lnet/minecraft/client/renderer/model/ModelBakery;"
 						+ "Lnet/minecraft/client/renderer/model/BlockModel;"
 						+ "Ljava/util/function/Function;"
@@ -176,21 +167,11 @@ public class MCObjTransformerService implements ITransformationService {
 
 				return input;
 			}
-
-			@Override
-			public TransformerVoteResult castVote(ITransformerVotingContext context) {
-				return TransformerVoteResult.YES;
-			}
-
-			@Override
-			public Set<Target> targets() {
-				return Collections.singleton(Target.targetClass("net.minecraft.client.renderer.model.BlockModel"));
-			}
 		});
-		transformers.add(new ITransformer<ClassNode>(){
+		transformers.add(new Transformer("com.tom.mcobj.Access"){
 
 			@Override
-			public ClassNode transform(ClassNode input, ITransformerVotingContext context) {
+			public ClassNode transform(ClassNode input) {
 				String bakeDesc = "(Lnet/minecraft/client/renderer/model/ModelBakery;"
 						+ "Lnet/minecraft/client/renderer/model/BlockModel;"
 						+ "Ljava/util/function/Function;"
@@ -381,23 +362,67 @@ public class MCObjTransformerService implements ITransformationService {
 				node.visitInsn(Opcodes.ARETURN);
 				input.methods.add(node);
 
+				node = ASMAPI.getMethodNode();
+				node.access = Opcodes.ACC_STATIC | Opcodes.ACC_PUBLIC;
+				node.name = "FcullS";
+				node.desc = "(Lnet/minecraftforge/client/model/pipeline/UnpackedBakedQuad$Builder;"
+						+ "Lnet/minecraft/util/Direction;)V";
+				node.tryCatchBlocks = new ArrayList<>();
+				node.exceptions = new ArrayList<>();
+				node.visitVarInsn(Opcodes.ALOAD, 0);
+				node.visitVarInsn(Opcodes.ALOAD, 1);
+				node.visitFieldInsn(Opcodes.PUTFIELD, "net/minecraftforge/client/model/pipeline/UnpackedBakedQuad$Builder",
+						"mcobj_cull", "Lnet/minecraft/util/Direction;");
+				node.visitInsn(Opcodes.RETURN);
+				input.methods.add(node);
+
+				node = ASMAPI.getMethodNode();
+				node.access = Opcodes.ACC_STATIC | Opcodes.ACC_PUBLIC;
+				node.name = "FcullS";
+				node.desc = "(Lnet/minecraftforge/client/model/pipeline/UnpackedBakedQuad;"
+						+ "Lnet/minecraft/util/Direction;)V";
+				node.tryCatchBlocks = new ArrayList<>();
+				node.exceptions = new ArrayList<>();
+				node.visitVarInsn(Opcodes.ALOAD, 0);
+				node.visitVarInsn(Opcodes.ALOAD, 1);
+				node.visitFieldInsn(Opcodes.PUTFIELD, "net/minecraftforge/client/model/pipeline/UnpackedBakedQuad",
+						"mcobj_cull", "Lnet/minecraft/util/Direction;");
+				node.visitInsn(Opcodes.RETURN);
+				input.methods.add(node);
+
+				node = ASMAPI.getMethodNode();
+				node.access = Opcodes.ACC_STATIC | Opcodes.ACC_PUBLIC;
+				node.name = "Fcull";
+				node.desc = "(Lnet/minecraftforge/client/model/pipeline/UnpackedBakedQuad$Builder;)"
+						+ "Lnet/minecraft/util/Direction;";
+				node.tryCatchBlocks = new ArrayList<>();
+				node.exceptions = new ArrayList<>();
+				node.visitVarInsn(Opcodes.ALOAD, 0);
+				node.visitFieldInsn(Opcodes.GETFIELD, "net/minecraftforge/client/model/pipeline/UnpackedBakedQuad$Builder",
+						"mcobj_cull", "Lnet/minecraft/util/Direction;");
+				node.visitInsn(Opcodes.ARETURN);
+				input.methods.add(node);
+
+				node = ASMAPI.getMethodNode();
+				node.access = Opcodes.ACC_STATIC | Opcodes.ACC_PUBLIC;
+				node.name = "Fcull";
+				node.desc = "(Lnet/minecraftforge/client/model/pipeline/UnpackedBakedQuad;)"
+						+ "Lnet/minecraft/util/Direction;";
+				node.tryCatchBlocks = new ArrayList<>();
+				node.exceptions = new ArrayList<>();
+				node.visitVarInsn(Opcodes.ALOAD, 0);
+				node.visitFieldInsn(Opcodes.GETFIELD, "net/minecraftforge/client/model/pipeline/UnpackedBakedQuad",
+						"mcobj_cull", "Lnet/minecraft/util/Direction;");
+				node.visitInsn(Opcodes.ARETURN);
+				input.methods.add(node);
+
 				return input;
 			}
-
-			@Override
-			public TransformerVoteResult castVote(ITransformerVotingContext context) {
-				return TransformerVoteResult.YES;
-			}
-
-			@Override
-			public Set<Target> targets() {
-				return Collections.singleton(Target.targetClass("com.tom.mcobj.Access"));
-			}
 		});
-		transformers.add(new ITransformer<ClassNode>(){
+		transformers.add(new Transformer("net.minecraftforge.client.model.obj.OBJModel$OBJBakedModel"){
 
 			@Override
-			public ClassNode transform(ClassNode input, ITransformerVotingContext context) {
+			public ClassNode transform(ClassNode input) {
 				String buildQuadsDesc = "(Lnet/minecraftforge/common/model/IModelState;)"
 						+ "Lcom/google/common/collect/ImmutableList;";
 				MethodNode node = null;
@@ -439,21 +464,11 @@ public class MCObjTransformerService implements ITransformationService {
 
 				return input;
 			}
-
-			@Override
-			public TransformerVoteResult castVote(ITransformerVotingContext context) {
-				return TransformerVoteResult.YES;
-			}
-
-			@Override
-			public Set<Target> targets() {
-				return Collections.singleton(Target.targetClass("net.minecraftforge.client.model.obj.OBJModel$OBJBakedModel"));
-			}
 		});
-		transformers.add(new ITransformer<ClassNode>(){
+		transformers.add(new Transformer("net.minecraft.client.renderer.entity.model.RendererModel"){
 
 			@Override
-			public ClassNode transform(ClassNode input, ITransformerVotingContext context) {
+			public ClassNode transform(ClassNode input) {
 				String compileDisplayListDesc = "(F)V";
 				MethodNode node = null;
 				for (MethodNode m : input.methods) {
@@ -535,21 +550,11 @@ public class MCObjTransformerService implements ITransformationService {
 				return input;
 			}
 
-			@Override
-			public TransformerVoteResult castVote(ITransformerVotingContext context) {
-				return TransformerVoteResult.YES;
-			}
-
-			@Override
-			public Set<Target> targets() {
-				return Collections.singleton(Target.targetClass("net.minecraft.client.renderer.entity.model.RendererModel"));
-			}
-
 		});
-		transformers.add(new ITransformer<ClassNode>(){
+		transformers.add(new Transformer("net.minecraft.client.renderer.model.ModelBox"){
 
 			@Override
-			public ClassNode transform(ClassNode input, ITransformerVotingContext context) {
+			public ClassNode transform(ClassNode input) {
 				MethodNode node = null;
 				FieldNode fieldU = new FieldNode(Opcodes.ACC_PUBLIC, "mcobj_texU",
 						"I", null, null);
@@ -586,21 +591,11 @@ public class MCObjTransformerService implements ITransformationService {
 				return input;
 			}
 
-			@Override
-			public TransformerVoteResult castVote(ITransformerVotingContext context) {
-				return TransformerVoteResult.YES;
-			}
-
-			@Override
-			public Set<Target> targets() {
-				return Collections.singleton(Target.targetClass("net.minecraft.client.renderer.model.ModelBox"));
-			}
-
 		});
-		transformers.add(new ITransformer<ClassNode>(){
+		transformers.add(new Transformer("net.minecraft.client.renderer.texture.TextureManager"){
 
 			@Override
-			public ClassNode transform(ClassNode input, ITransformerVotingContext context) {
+			public ClassNode transform(ClassNode input) {
 				MethodNode node = null;
 				FieldNode field = new FieldNode(Opcodes.ACC_PUBLIC, "mcobj_currTexture",
 						"Lnet/minecraft/util/ResourceLocation;", null, null);
@@ -625,21 +620,11 @@ public class MCObjTransformerService implements ITransformationService {
 				return input;
 			}
 
-			@Override
-			public TransformerVoteResult castVote(ITransformerVotingContext context) {
-				return TransformerVoteResult.YES;
-			}
-
-			@Override
-			public Set<Target> targets() {
-				return Collections.singleton(Target.targetClass("net.minecraft.client.renderer.texture.TextureManager"));
-			}
-
 		});
-		transformers.add(new ITransformer<ClassNode>(){
+		transformers.add(new Transformer("net.minecraftforge.client.model.obj.OBJModel$MaterialLibrary"){
 
 			@Override
-			public ClassNode transform(ClassNode input, ITransformerVotingContext context) {
+			public ClassNode transform(ClassNode input) {
 				MethodNode node = null;
 
 				String constr = " (Lnet/minecraft/resources/IResourceManager;"
@@ -671,18 +656,81 @@ public class MCObjTransformerService implements ITransformationService {
 
 				return input;
 			}
-
-			@Override
-			public TransformerVoteResult castVote(ITransformerVotingContext context) {
-				return TransformerVoteResult.YES;
-			}
-
-			@Override
-			public Set<Target> targets() {
-				return Collections.singleton(Target.targetClass("net.minecraftforge.client.model.obj.OBJModel$MaterialLibrary"));
-			}
-
 		});
-		return (List) transformers;
+		transformers.add(new Transformer("net.minecraftforge.client.model.pipeline.UnpackedBakedQuad"){
+
+			@Override
+			public ClassNode transform(ClassNode input) {
+				FieldNode field = new FieldNode(Opcodes.ACC_PUBLIC, "mcobj_cull",
+						"Lnet/minecraft/util/Direction;", null, null);
+				input.fields.add(field);
+
+				return input;
+			}
+		});
+		transformers.add(new Transformer("net.minecraftforge.client.model.pipeline.UnpackedBakedQuad$Builder"){
+
+			@Override
+			public ClassNode transform(ClassNode input) {
+				FieldNode field = new FieldNode(Opcodes.ACC_PUBLIC, "mcobj_cull",
+						"Lnet/minecraft/util/Direction;", null, null);
+				input.fields.add(field);
+				MethodNode node = null;
+				String constr = "()Lnet/minecraftforge/client/model/pipeline/UnpackedBakedQuad;";
+				for (MethodNode m : input.methods) {
+					if(m.name.equals("build") && m.desc.equals(constr)){
+						node = m;
+					}
+				}
+
+				AbstractInsnNode ret = node.instructions.get(node.instructions.size() - 2);
+				InsnList lst = new InsnList();
+				lst.add(new VarInsnNode(Opcodes.ALOAD, 0));
+				/*lst.add(new FieldInsnNode(Opcodes.GETFIELD, "Lnet/minecraftforge/client/model/pipeline/UnpackedBakedQuad$Builder;",
+						"mcobj_cull", "Lnet/minecraft/util/Direction;"));*/
+				lst.add(new MethodInsnNode(Opcodes.INVOKESTATIC, "com/tom/mcobj/Remap", "finishQuad",
+						"(Lnet/minecraftforge/client/model/pipeline/UnpackedBakedQuad;"
+								+ "Lnet/minecraftforge/client/model/pipeline/UnpackedBakedQuad$Builder;)"
+								+ "Lnet/minecraftforge/client/model/pipeline/UnpackedBakedQuad;", false));
+				node.instructions.insertBefore(ret, lst);
+				return input;
+			}
+		});
+		return (List) transformers.stream().map(TransformerWrapper::new).collect(Collectors.toList());
+	}
+
+	private static abstract class Transformer {
+		private final String clazz;
+		public Transformer(String clazz) {
+			this.clazz = clazz;
+		}
+
+		public Set<Target> targets() {
+			return Collections.singleton(Target.targetClass(clazz));
+		}
+
+		public abstract ClassNode transform(ClassNode input);
+	}
+
+	private static class TransformerWrapper implements ITransformer<ClassNode> {
+		private final Transformer tr;
+		public TransformerWrapper(Transformer tr) {
+			this.tr = tr;
+		}
+
+		@Override
+		public ClassNode transform(ClassNode input, ITransformerVotingContext ctx) {
+			return tr.transform(input);
+		}
+
+		@Override
+		public TransformerVoteResult castVote(ITransformerVotingContext context) {
+			return TransformerVoteResult.YES;
+		}
+
+		@Override
+		public Set<Target> targets() {
+			return tr.targets();
+		}
 	}
 }

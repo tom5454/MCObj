@@ -1,8 +1,11 @@
 package com.tom.mcobj;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
 import java.util.Set;
@@ -37,6 +40,7 @@ import net.minecraftforge.client.model.obj.OBJModel;
 import net.minecraftforge.client.model.obj.OBJModel.Material;
 import net.minecraftforge.client.model.obj.OBJModel.MaterialLibrary;
 import net.minecraftforge.client.model.obj.OBJModel.OBJBakedModel;
+import net.minecraftforge.client.model.pipeline.UnpackedBakedQuad;
 import net.minecraftforge.common.model.IModelState;
 import net.minecraftforge.common.model.TRSRTransformation;
 import net.minecraftforge.common.model.animation.IClip;
@@ -50,11 +54,14 @@ public class BlockModelObj extends BlockModel {
 		private TextureAtlasSprite particle;
 		private ItemCameraTransforms tr;
 		private ImmutableMap<TransformType, TRSRTransformation> mtr;
-		public BakedObjModel(OBJBakedModel model, TextureAtlasSprite particle, ItemCameraTransforms tr) {
+		private Map<Direction, List<BakedQuad>> quads;
+		private Optional<TRSRTransformation> cullTr;
+		public BakedObjModel(OBJBakedModel model, TextureAtlasSprite particle, ItemCameraTransforms tr, Optional<TRSRTransformation> cullTr) {
 			this.parent = model;
 			this.particle = particle;
 			this.tr = tr;
 			this.mtr = PerspectiveMapWrapper.getTransforms(tr);
+			this.cullTr = cullTr;
 		}
 		@Override
 		public List<BakedQuad> getQuads(BlockState state, Direction side, Random rand) {
@@ -90,7 +97,19 @@ public class BlockModelObj extends BlockModel {
 		}
 		@Override
 		public List<BakedQuad> getQuads(BlockState state, Direction side, Random rand, IModelData extraData) {
-			return parent.getQuads(state, side, rand, extraData);
+			if(quads == null) {
+				quads = new HashMap<>();
+				quads.put(null, new ArrayList<>());
+				for (Direction d : Direction.values()) {
+					quads.put(d, new ArrayList<>());
+				}
+				List<BakedQuad> qs = parent.getQuads(state, null, rand, extraData);
+				for (BakedQuad bakedQuad : qs) {
+					Direction cull = Access.Fcull((UnpackedBakedQuad) bakedQuad);
+					quads.get(cull == null ? null : cullTr.map(trsr -> trsr.rotateTransform(cull)).orElse(cull)).add(bakedQuad);
+				}
+			}
+			return quads.get(side);
 		}
 		@Override
 		public boolean isAmbientOcclusion(BlockState state) {
@@ -158,7 +177,8 @@ public class BlockModelObj extends BlockModel {
 			//missingTexs.add(rl);
 		}
 		OBJBakedModel baked = parent.new OBJBakedModel(parent, sprite.getState(), format, builder.build());
-		return new BlockModelObj.BakedObjModel(baked, particle, caller.getAllTransforms());
+		Optional<TRSRTransformation> opt = sprite.getState().apply(java.util.Optional.empty());
+		return new BlockModelObj.BakedObjModel(baked, particle, caller.getAllTransforms(), opt);
 	}
 	@Override
 	public IModelState getDefaultState() {
